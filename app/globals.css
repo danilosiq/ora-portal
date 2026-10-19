@@ -39,3 +39,5 @@
 @media(prefers-reduced-motion:reduce){.consultant-sheet[data-state=open],.consultant-sheet[data-state=closed]{animation:none!important}}
 @media print{.mobile-bottom-nav,.mobile-consultant-card,.detail-heading-actions,.profile-logout,.unlink-account{display:none!important}.details-layout aside{display:block}.portal{padding:0}.detail-heading .detail-title{display:block;overflow:visible}.profile-count{margin-left:auto}}
 @media(max-width:760px){.profile-information{flex:1 1 calc(100% - 60px)}.profile-count{flex:0 0 auto}}
+
+.detail-address + .confirmation-banner{margin-top:20px}
