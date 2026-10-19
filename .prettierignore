@@ -1,0 +1,6 @@
+.next
+.next-dev
+node_modules
+package-lock.json
+public
+src/core/assets

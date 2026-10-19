@@ -1,19 +1,19 @@
 # Portal ORA
 
-Protótipo local em Next.js (App Router), React, TypeScript, Tailwind CSS e componentes shadcn/ui (Button e Dialog com Radix).
+Frontend demonstrativo em Next.js App Router, React, TypeScript, Tailwind CSS e shadcn/ui com Radix. O layout, os fluxos e as animações são preservados pela organização modular.
 
 ## Executar
 
-Requer Node.js 20.9 ou superior e npm.
+Use a versão de Node.js definida em `.nvmrc`:
 
 ```bash
 source ~/.nvm/nvm.sh
 nvm use
-npm install
+npm ci
 npm run dev
 ```
 
-Abra http://localhost:3000.
+Abra http://localhost:3000. O cache de desenvolvimento fica em `.next-dev/` e o build de produção em `.next/`.
 
 ## Verificar
 
@@ -21,16 +21,57 @@ Abra http://localhost:3000.
 npm run fullcheck
 ```
 
-## Fluxos
+A checagem executa as regras de arquitetura, formatação, TypeScript e build. O TypeScript também bloqueia variáveis, parâmetros e imports sem uso.
 
-- Informe 11 dígitos no CPF. Não há consulta nem validação cadastral; use dados fictícios.
-- O envio para `exemplo@exmplo.com` é simulado. Qualquer código de quatro dígitos permite acessar.
-- Pesquise entre 10 negócios e clique em um cartão para abrir os detalhes.
-- O menu tem expansão animada e abre informações, ajuda e vínculo fictício com Google.
-- Os detalhes possuem quatro abas. A exportação abre a impressão do navegador: escolha “Salvar como PDF” para exportar a aba visível.
-- Na confirmação de valores, revise as quatro etapas, solicite ajustes e marque os aceites para concluir. Nenhuma informação é enviada.
-- No mobile, o cartão do consultor abre um bottom sheet; a barra inferior permite acessar negócios, informações, ajuda e perfil.
-- Meu perfil exibe o total de negócios e permite vincular/desvincular contas Google fictícias.
-- Layout responsivo, navegação por teclado e suporte a movimento reduzido.
+```bash
+npm run check:architecture
+npm run format
+npm run format:check
+npm run typecheck
+```
 
-Sem backend, envio de e-mail, autenticação ou integração Google. Os dados são fictícios e mantidos somente em memória; recarregar a página reinicia a demonstração. Somente a preferência “Não mostrar isso novamente” do convite Google é salva no navegador. O cache de desenvolvimento usa `.next-dev/`, separado do build de produção em `.next/`. A imagem de fundo fornecida está em `public/login-background.png`.
+## Organização
+
+| Local                 | Responsabilidade                                        |
+| --------------------- | ------------------------------------------------------- |
+| `src/app`             | Entrada e layout do Next.js                             |
+| `src/components/ui`   | Primitivos nativos shadcn/ui: Button, Dialog e Tooltip  |
+| `src/core/components` | Composições compartilhadas, marcas, tabelas e contatos  |
+| `src/core/pages`      | Páginas com componentes, hooks e utilidades específicos |
+| `src/core/@types`     | Tipos de domínio e estado compartilhados                |
+| `src/core/mocks`      | Dados fictícios da demonstração                         |
+| `src/core/utils`      | Utilidades compartilhadas                               |
+| `src/core/styles`     | Tema e estilos da interface                             |
+| `src/core/assets`     | Imagens e ícones importados pelo código                 |
+
+O alias `@/` aponta para `src/`. A configuração do shadcn está em `components.json`. Novos componentes específicos ficam dentro da própria página; composições só são promovidas para `core/components` quando compartilhadas.
+
+## Cores
+
+A fonte de verdade está em `src/core/styles/Theme.css`:
+
+| Token           | Cor       |
+| --------------- | --------- |
+| `primary`       | `#FF7A00` |
+| `primary-hover` | `#B25500` |
+| `primary-light` | `#FFEAD6` |
+
+Os tokens podem ser usados no Tailwind (`bg-primary`, `hover:bg-primary-hover`, `bg-primary-light`) e no CSS (`var(--primary)`, `var(--primary-hover)`, `var(--primary-light)`). `primary-ligh` é um alias de compatibilidade para `primary-light`. As cores semânticas existentes de erro, sucesso e status foram preservadas.
+
+A fonte Baloo 2 é distribuída localmente. Imagens usam imports de `src/core/assets`; não dependem de URLs públicas antigas.
+
+## Fluxos simulados
+
+- CPF com 11 dígitos → seleção de SMS/e-mail → qualquer código de quatro dígitos. Use somente dados fictícios.
+- Entrada demonstrativa com Google, sem autenticação real.
+- Dez negócios, pesquisa e alternância animada entre cards e lista compacta.
+- Detalhes com abas, contatos e exportação da aba visível por impressão do navegador.
+- Confirmação com quatro etapas, solicitações de ajuste e aceites obrigatórios.
+- Perfil com vínculos e desvínculos fictícios de contas Google.
+- Navegação inferior e bottom sheets de contatos no mobile.
+
+O estado fica em memória. Somente a preferência de ocultar o convite Google usa armazenamento local. Recarregar reinicia a demonstração.
+
+Axios, TanStack Query e date-fns estão instalados conforme o `AGENTS.md`. Não há services, endpoints, providers de dados ou conexões de backend. Essas bibliotecas serão integradas quando houver contratos reais.
+
+A validação da refatoração está em `docs/RefactorValidation.md`.

@@ -1,0 +1,14 @@
+:root {
+  --primary: #ff7a00;
+  --primary-hover: #b25500;
+  --primary-light: #ffead6;
+  --primary-ligh: var(--primary-light);
+}
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-primary-ligh: var(--primary-light);
+  --color-secondary: var(--primary-light);
+  --font-sans: 'Baloo 2', sans-serif;
+}

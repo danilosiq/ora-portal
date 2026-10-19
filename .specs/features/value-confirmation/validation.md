@@ -16,3 +16,13 @@ Verificação expressa do protótipo local, sem backend nem operações reais.
 - Cache de desenvolvimento separado da produção, evitando conflito com prévia ativa. Evidência: next.config.ts:4.
 
 Limites: contatos, perfis, vínculos e confirmações são fictícios; sem integração Google ou envio de dados. Commit não se aplica: pasta sem repositório Git. Sem Verifier independente ou sensor de mutação no nível express.
+
+## Identificação por canal
+
+- Chromium visível, `/tmp/playwright-test-ora-identification.js`: exit 0, sem erros de página.
+- CPF válido abre seleção SMS/e-mail antes do código. Cada opção exibe o destino fictício e mascarado correspondente; voltar preserva o CPF e permite trocar o canal. Evidência: components/identification.tsx:11.
+- Registros de `animationstart` e `animationend` confirmam que a saída do CPF termina antes da entrada do canal. Entrada usa fade-in/slide-up; saída usa fade-out/slide-down. Evidência: components/identification.tsx:85.
+- Cartão de canal com 524px e x=222px no viewport 1440x944; captura desktop inspecionada.
+- Dimensões da foto iguais nas etapas CPF, canal e código, incluindo mobile 390x700. Redimensionamento do viewport sem transição de opacidade. Evidência: app/globals.css:99.
+- Movimento reduzido permite completar e voltar entre etapas sem depender de evento de animação. Evidência: components/identification.tsx:52.
+- Nenhuma requisição POST no fluxo: envio e autenticação permanecem simulados.
