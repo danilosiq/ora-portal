@@ -44,10 +44,10 @@ export function PortalPage() {
   if (screen !== 'portal') return <Identification onComplete={completeIdentification} />;
   return (
     <div
-      className={`portal ${selected !== null ? 'has-business-detail' : ''} ${view === 'profile' ? 'has-profile' : ''}`}
+      className={`portal mx-auto max-w-[1680px] px-8 pt-6 max-[1100px]:px-6 max-[1100px]:pt-5 max-[760px]:px-[19px] max-[760px]:pb-[calc(100px+env(safe-area-inset-bottom))] print:p-0 ${selected !== null ? 'has-business-detail' : ''} ${view === 'profile' ? 'has-profile' : ''}`}
     >
       <PortalNavbar state={state} />
-      <main className="main-content">
+      <main className="main-content min-h-[calc(100vh-180px)] pt-[38px] max-[760px]:min-h-[calc(100svh-145px)] max-[760px]:pt-0 print:p-0">
         {view === 'profile' ? (
           <MyProfile
             accounts={accounts}

@@ -14,12 +14,15 @@ export function ConsultantContactLinks({
 }: ConsultantContactLinksProps) {
   return (
     <>
-      <div className="consultant-phone-row">
-        <a href={`tel:+${phone}`}>
+      <div className="consultant-phone-row my-4 flex flex-wrap items-center gap-[9px] [.business-sidebar_&]:flex-nowrap [.business-sidebar_&]:gap-2 [.intermediary-contact_&]:my-3 [.consultant-sheet_&]:justify-center [.consultant-sheet_&]:max-[760px]:my-[18px] [.consultant-sheet_&]:max-[760px]:gap-[10px]">
+        <a
+          className="flex items-center gap-[9px] text-[16px] [.consultant-panel_&]:leading-[1.4] [overflow-wrap:anywhere] [.consultant-panel_&]:text-[15px] [.business-sidebar_&]:max-[1100px]:text-[14px] [.consultant-sheet_&]:justify-center [.consultant-sheet_&]:text-[20px] [.consultant-sheet_&]:max-[760px]:gap-[10px] [&>svg]:shrink-0 [&>svg]:text-primary"
+          href={`tel:+${phone}`}
+        >
           <Phone size={20} /> {phoneLabel}
         </a>
         <a
-          className="whatsapp-button"
+          className="whatsapp-button inline-flex size-[30px] shrink-0 items-center justify-center rounded-full bg-[#388e3c] p-[5px] text-white transition-[background-color,transform] duration-200 hover:-translate-y-px hover:bg-[#287a2c] [.business-sidebar_&]:size-[25px] [.business-sidebar_&]:p-1 [.intermediaries-contacts_&]:size-[29px] [.consultant-sheet_&]:max-[760px]:size-8 print:!hidden [&>svg]:shrink-0 [&>svg]:text-white"
           href={`https://wa.me/${phone}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -31,7 +34,10 @@ export function ConsultantContactLinks({
           </svg>
         </a>
       </div>
-      <a href={`mailto:${email}`}>
+      <a
+        className="my-4 flex items-center gap-[9px] text-[16px] [.consultant-panel_&]:leading-[1.4] [overflow-wrap:anywhere] [.business-sidebar_&]:max-[1100px]:text-[14px] [.consultant-sheet_&]:justify-center [.consultant-sheet_&]:text-[20px] [.consultant-sheet_&]:max-[760px]:my-[18px] [.consultant-sheet_&]:max-[760px]:gap-[10px] [.intermediary-contact_&]:my-3 [.intermediaries-contacts_&]:text-[18px] [&>svg]:shrink-0 [&>svg]:text-primary"
+        href={`mailto:${email}`}
+      >
         <Mail size={20} /> {email}
       </a>
     </>

@@ -18,6 +18,12 @@ for (const file of files(sourceRoot)) {
     errors.push(`${relative}: nome de arquivo deve usar PascalCase`);
   }
 }
+for (const file of files(sourceRoot)) {
+  const relative = path.relative(root, file).replaceAll(path.sep, '/');
+  if (/\.(css|scss|sass|less)$/.test(file) && relative !== 'src/core/styles/Globals.css') {
+    errors.push(`${relative}: use utilitários Tailwind; somente a entrada global é permitida`);
+  }
+}
 const sourceFiles = files(sourceRoot).filter((file) => /\.tsx?$/.test(file));
 for (const file of sourceFiles) {
   const relative = path.relative(root, file).replaceAll(path.sep, '/');
@@ -30,6 +36,9 @@ for (const file of sourceFiles) {
   }
   const isHook = relative.includes('/hooks/');
   function visit(node) {
+    if (ts.isJsxAttribute(node) && node.name.getText(source) === 'style') {
+      errors.push(`${relative}: estilos inline não são permitidos; use Tailwind`);
+    }
     if (isHook && (ts.isJsxElement(node) || ts.isJsxSelfClosingElement(node))) {
       errors.push(`${relative}: hooks não podem conter JSX`);
     }
@@ -64,7 +73,12 @@ for (const file of sourceFiles) {
 if (fs.existsSync(path.join(sourceRoot, 'core/components/ui'))) {
   errors.push('Primitivos shadcn devem ficar em src/components/ui');
 }
-const theme = fs.readFileSync(path.join(sourceRoot, 'core/styles/Theme.css'), 'utf8');
+const theme = fs.readFileSync(path.join(sourceRoot, 'core/styles/Globals.css'), 'utf8');
+if (/^\s*[.#][a-z_-][\w-]*/im.test(theme)) {
+  errors.push(
+    'Globals.css deve conter somente setup Tailwind, tokens, defaults globais e keyframes',
+  );
+}
 for (const [name, value] of Object.entries({
   primary: '#FF7A00',
   'primary-hover': '#B25500',

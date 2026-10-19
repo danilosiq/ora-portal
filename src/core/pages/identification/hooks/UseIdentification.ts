@@ -19,7 +19,7 @@ export function useIdentification({ onComplete }: IdentificationProps) {
   const [channel, setChannel] = useState<Channel>('email');
   const [code, setCode] = useState(['', '', '', '']);
   const [error, setError] = useState('');
-  const [height, setHeight] = useState<number>();
+  const shellRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const cpfRef = useRef<HTMLInputElement>(null);
   const channelRef = useRef<HTMLParagraphElement>(null);
@@ -36,11 +36,32 @@ export function useIdentification({ onComplete }: IdentificationProps) {
   useLayoutEffect(() => {
     const content = contentRef.current;
     if (!content) return;
-    const measure = () => setHeight(content.offsetHeight);
+    let previousHeight = content.offsetHeight;
+    let animation: Animation | undefined;
+    const measure = () => {
+      const nextHeight = content.offsetHeight;
+      if (nextHeight === previousHeight) return;
+      const shell = shellRef.current;
+      if (shell && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const startHeight =
+          animation?.playState === 'running'
+            ? shell.getBoundingClientRect().height
+            : previousHeight;
+        animation?.cancel();
+        animation = shell.animate([{ height: `${startHeight}px` }, { height: `${nextHeight}px` }], {
+          duration: 420,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        });
+      }
+      previousHeight = nextHeight;
+    };
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(content);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      animation?.cancel();
+    };
   }, []);
 
   useEffect(() => {
@@ -160,7 +181,7 @@ export function useIdentification({ onComplete }: IdentificationProps) {
     channel,
     code,
     error,
-    height,
+    shellRef,
     contentRef,
     cpfRef,
     channelRef,

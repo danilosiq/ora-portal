@@ -18,7 +18,11 @@ export const addresses = [
   'Avenida dos Ipês, 850',
 ];
 export const purchaseRows = [
-  ['Modalidade de aquisição', 'Financiamento isolado'],
+  [
+    'Modalidade de aquisição',
+    'Financiamento isolado',
+    'A modalidade de aquisição indica como a compra do imóvel será realizada. No financiamento isolado, o crédito é destinado à compra de um imóvel pronto, sem incluir sua construção.',
+  ],
   ['Banco', 'Santander'],
   ['Valor do imóvel', 'R$ 305.000,00'],
   ['Entrada', 'R$ 60.900,00'],

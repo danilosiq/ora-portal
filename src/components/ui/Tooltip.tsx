@@ -15,7 +15,10 @@ export function TooltipContent({ className, sideOffset = 8, ...props }: TooltipC
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
         sideOffset={sideOffset}
-        className={cn('tooltip-content', className)}
+        className={cn(
+          'tooltip-content z-50 w-max max-w-[220px] rounded-[7px] bg-[#25303d] px-[11px] py-2 text-[14px] leading-[1.4] text-white origin-[var(--radix-tooltip-content-transform-origin)] animate-[reveal_0.16s_ease-out] max-[760px]:text-[13px] motion-reduce:animate-none',
+          className,
+        )}
         {...props}
       />
     </TooltipPrimitive.Portal>

@@ -11,10 +11,10 @@ type DialogContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.
 export function DialogContent({ children, className, ...props }: DialogContentProps) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="dialog-overlay fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px]" />
+      <DialogPrimitive.Overlay className="dialog-overlay fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] data-[state=open]:animate-[modal-overlay-in_0.28s_ease-out_both] data-[state=closed]:animate-[modal-overlay-out_0.2s_ease-in_both] motion-reduce:animate-none" />
       <DialogPrimitive.Content
         className={cn(
-          'dialog-content fixed left-1/2 top-1/2 z-50 w-[calc(100%_-_2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 max-h-[90svh] overflow-y-auto rounded-xl bg-white p-7 shadow-xl outline-none',
+          'dialog-content fixed left-1/2 top-1/2 z-50 w-[calc(100%_-_2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 max-h-[90svh] overflow-y-auto rounded-xl bg-white p-7 shadow-xl outline-none data-[state=open]:animate-[modal-in_0.34s_cubic-bezier(0.16,1,0.3,1)_both] data-[state=closed]:animate-[modal-out_0.2s_cubic-bezier(0.4,0,1,1)_both] motion-reduce:animate-none',
           className,
         )}
         {...props}

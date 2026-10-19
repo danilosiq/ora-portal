@@ -1,5 +1,8 @@
 'use client';
 
+import { cn } from '@/core/utils/Cn';
+
+import { overviewPanelClassName, reviewCheckboxClassName } from '@/core/utils/Presentation';
 import { BusinessOverview } from '@/core/components/BusinessOverview';
 import { DataTable } from '@/core/components/DataTable';
 import { financingRows, notices, purchaseRows } from '@/core/mocks/BusinessData';
@@ -11,7 +14,10 @@ type ReviewStepContentProps = { state: ConfirmationState; businessId: number };
 export function ReviewStepContent({ state, businessId }: ReviewStepContentProps) {
   const { step, accepted, setAccepted, hasAdjustments, adjustments, goTo } = state;
   return (
-    <div className={`review-content ${step === 1 || step === 2 ? 'review-values' : ''}`} key={step}>
+    <div
+      className={`review-content animate-[reveal_0.28s_ease] [&.review-values]:mx-auto [&.review-values]:max-w-[580px] motion-reduce:animate-none ${step === 1 || step === 2 ? 'review-values' : ''}`}
+      key={step}
+    >
       {step === 0 ? (
         <BusinessOverview businessId={businessId} showIntermediaries />
       ) : step === 1 ? (
@@ -21,10 +27,16 @@ export function ReviewStepContent({ state, businessId }: ReviewStepContentProps)
       ) : (
         <>
           {notices.map((notice, index) => (
-            <article className="panel review-notice" key={notice.title}>
+            <article
+              className={cn(
+                overviewPanelClassName,
+                'panel review-notice [&>h2]:mb-[6px]! [&>h2]:text-[19px]! [&>p]:whitespace-pre-line',
+              )}
+              key={notice.title}
+            >
               <h2>{notice.title}</h2>
               <p>{notice.text}</p>
-              <label className="review-checkbox">
+              <label className={reviewCheckboxClassName}>
                 <input
                   type="checkbox"
                   checked={accepted[index]}
@@ -39,7 +51,12 @@ export function ReviewStepContent({ state, businessId }: ReviewStepContentProps)
             </article>
           ))}
           {hasAdjustments && (
-            <article className="panel adjustment-summary">
+            <article
+              className={cn(
+                overviewPanelClassName,
+                'panel adjustment-summary border-[#ffdcc0] bg-[#fff8f1] [&>div+div]:mt-[13px] [&>div+div]:border-t [&>div+div]:border-[#efddcc] [&>div+div]:pt-[13px] [&_p]:whitespace-pre-wrap [&_p]:[overflow-wrap:anywhere]',
+              )}
+            >
               <h2>
                 <MessageSquareWarning size={20} /> Solicitações de ajuste
               </h2>
@@ -47,7 +64,7 @@ export function ReviewStepContent({ state, businessId }: ReviewStepContentProps)
                 (text, i) =>
                   text && (
                     <div key={i}>
-                      <div className="adjustment-summary-title">
+                      <div className="adjustment-summary-title flex items-center justify-between gap-[10px] text-[16px] [&>button]:flex [&>button]:items-center [&>button]:gap-[6px] [&>button]:text-[14px] [&>button]:text-primary">
                         <strong>{steps[i]}</strong>
                         <button onClick={() => goTo(i)}>
                           <Pencil size={14} /> Revisar
