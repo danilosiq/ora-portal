@@ -10,19 +10,19 @@ import { ConsultantCard } from '@/core/components/ConsultantDetails';
 import { properties } from '@/core/mocks/BusinessData';
 import { ArrowLeft, ArrowRight, ChevronRight, CircleCheck } from 'lucide-react';
 
-import type { ReviewResult } from '@/core/@types/Business';
+import { usePortal } from '@/core/pages/portal/hooks/UsePortal';
 import { AdjustmentDialog } from './components/AdjustmentDialog';
 import { ConfirmationStepper } from './components/ConfirmationStepper';
 import { ReviewBody } from './components/ReviewBody';
 import { useValueConfirmation } from './hooks/UseValueConfirmation';
 import { steps } from './utils/Constants';
-export type ValueConfirmationProps = {
-  businessId: number;
-  onExit: () => void;
-  onComplete: (result: ReviewResult) => void;
-};
-export function ValueConfirmation({ businessId, onExit, onComplete }: ValueConfirmationProps) {
-  const state = useValueConfirmation({ onComplete });
+type ValueConfirmationPageProps = { businessId: number };
+export function ValueConfirmationPage({ businessId }: ValueConfirmationPageProps) {
+  const { exitConfirmation, completeReview } = usePortal();
+  const onExit = () => exitConfirmation(businessId);
+  const state = useValueConfirmation({
+    onComplete: (result) => completeReview(businessId, result),
+  });
   const { consultantOpen, setConsultantOpen, consultantTriggerRef, step, result } = state;
   return (
     <main className="confirmation-page min-h-svh bg-[linear-gradient(90deg,#fff_32%,rgba(255,255,255,0.92)_46%,rgba(255,255,255,0.22)_78%),url('/LoginBackground.png')] bg-cover bg-fixed bg-center px-7 pt-10 pb-[50px] max-[900px]:bg-[linear-gradient(90deg,#fffffff0,#ffffffda),url('/LoginBackground.png')] max-[900px]:px-5 max-[900px]:pt-[25px] max-[900px]:pb-10 max-[460px]:px-3 max-[460px]:pt-5 max-[460px]:pb-[35px] print:bg-none">

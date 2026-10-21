@@ -2,11 +2,11 @@
 
 import { Button } from '@/components/ui/Button';
 import { GoogleLogo as Google, Logo } from '@/core/components/BrandAssets';
-import { Check, Handshake, Headset, Info, LogOut, Menu, User, X } from 'lucide-react';
+import { Check, Handshake, Info, LogOut, Menu, User, X } from 'lucide-react';
 import type { PortalState } from '../hooks/UsePortal';
 type PortalNavbarProps = { state: PortalState };
 export function PortalNavbar({ state }: PortalNavbarProps) {
-  const { menu, setMenu, navigate, setDialog, openGoogleLink, accounts, logout } = state;
+  const { menu, setMenu, navigate, openGoogleLink, accounts, logout } = state;
   return (
     <header
       className={`navbar relative z-10 rounded-[40px] border border-[#ededf0] bg-white px-[17px] py-[10px] shadow-[0_3px_5px_#18243112] transition-[border-radius] duration-[350ms] [&.expanded]:rounded-[22px] max-[760px]:hidden motion-reduce:transition-none print:!hidden ${menu ? 'expanded' : ''}`}
@@ -48,11 +48,8 @@ export function PortalNavbar({ state }: PortalNavbarProps) {
           <Button variant="outline" onClick={() => navigate('businesses')}>
             <Handshake /> Meus negócios
           </Button>
-          <Button variant="outline" onClick={() => setDialog('about')}>
+          <Button variant="outline" onClick={() => navigate('about')}>
             <Info /> Sobre o ORA
-          </Button>
-          <Button variant="outline" onClick={() => setDialog('help')}>
-            <Headset /> Ajuda e SAC
           </Button>
           <Button variant="outline" onClick={() => navigate('profile')}>
             <User /> Meu perfil

@@ -6,7 +6,7 @@ import { overviewPanelClassName, reviewCheckboxClassName } from '@/core/utils/Pr
 import { BusinessOverview } from '@/core/components/BusinessOverview';
 import { DataTable } from '@/core/components/DataTable';
 import { financingRows, notices, purchaseRows } from '@/core/mocks/BusinessData';
-import { MessageSquareWarning, Pencil } from 'lucide-react';
+import { Pencil, Wrench } from 'lucide-react';
 
 import type { ConfirmationState } from '../hooks/UseValueConfirmation';
 import { steps } from '../utils/Constants';
@@ -54,17 +54,17 @@ export function ReviewStepContent({ state, businessId }: ReviewStepContentProps)
             <article
               className={cn(
                 overviewPanelClassName,
-                'panel adjustment-summary border-[#ffdcc0] bg-[#fff8f1] [&>div+div]:mt-[13px] [&>div+div]:border-t [&>div+div]:border-[#efddcc] [&>div+div]:pt-[13px] [&_p]:whitespace-pre-wrap [&_p]:[overflow-wrap:anywhere]',
+                'panel adjustment-summary border-success bg-white [&_h2]:text-success [&>div+div]:mt-[13px] [&>div+div]:border-t [&>div+div]:border-[#aeb2bb] [&>div+div]:pt-[13px] [&_p]:whitespace-pre-wrap [&_p]:[overflow-wrap:anywhere]',
               )}
             >
               <h2>
-                <MessageSquareWarning size={20} /> Solicitações de ajuste
+                <Wrench size={20} /> Solicitações de ajuste
               </h2>
               {adjustments.map(
                 (text, i) =>
                   text && (
                     <div key={i}>
-                      <div className="adjustment-summary-title flex items-center justify-between gap-[10px] text-[16px] [&>button]:flex [&>button]:items-center [&>button]:gap-[6px] [&>button]:text-[14px] [&>button]:text-primary">
+                      <div className="adjustment-summary-title flex items-center justify-between gap-[10px] text-[16px] [&>button]:flex [&>button]:items-center [&>button]:gap-[6px] [&>button]:text-[14px] [&>button]:text-success">
                         <strong>{steps[i]}</strong>
                         <button onClick={() => goTo(i)}>
                           <Pencil size={14} /> Revisar

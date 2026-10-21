@@ -1,4 +1,5 @@
 'use client';
+import { usePortal } from '@/core/pages/portal/hooks/UsePortal';
 import { IdentificationForm } from './components/IdentificationForm';
 
 import { Button } from '@/components/ui/Button';
@@ -6,9 +7,9 @@ import { GoogleLogo, Logo } from '@/core/components/BrandAssets';
 import { ShieldCheck } from 'lucide-react';
 
 import { useIdentification } from './hooks/UseIdentification';
-export type IdentificationProps = { onComplete: (google: boolean) => void };
-export function Identification({ onComplete }: IdentificationProps) {
-  const state = useIdentification({ onComplete });
+export function IdentificationPage() {
+  const { completeIdentification } = usePortal();
+  const state = useIdentification({ onComplete: completeIdentification });
   const { step, phase, shellRef, contentRef, leaving, transitionTo, animationFinished } = state;
   return (
     <main className="login identification-page relative isolate flex min-h-svh items-center justify-center overflow-x-clip bg-white px-5 py-10 min-[761px]:items-start min-[761px]:justify-start min-[761px]:p-0">

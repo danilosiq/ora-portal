@@ -8,7 +8,7 @@ O fundo compartilhado foi movido para `public/LoginBackground.png`. O conteúdo 
 
 ## Verificação
 
-- `npm run fullcheck`: arquitetura, Prettier, TypeScript e build de produção.
+- `yarn fullcheck`: arquitetura, Prettier, TypeScript e build de produção.
 - Identificação: máscara/validação, SMS/e-mail, código, retorno, sequência das animações, fundo estável e preferência de movimento reduzido.
 - Listagem: fade/slide, toggle, ordem dos campos, pesquisa preservada e ajuste ao mobile.
 - Fluxos completos: tooltip, vínculos Google simulados, abas, contatos, sheets, retorno de foco, aceites, ajustes e conclusão por negócio.

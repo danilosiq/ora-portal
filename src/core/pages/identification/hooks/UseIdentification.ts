@@ -9,10 +9,10 @@ import {
   type AnimationEvent,
   type FormEvent,
 } from 'react';
-import type { IdentificationProps } from '../IdentificationPage';
+type UseIdentificationProps = { onComplete: (google: boolean) => void };
 type Step = 'cpf' | 'channel' | 'code';
 type Channel = 'sms' | 'email';
-export function useIdentification({ onComplete }: IdentificationProps) {
+export function useIdentification({ onComplete }: UseIdentificationProps) {
   const [step, setStep] = useState<Step>('cpf');
   const [phase, setPhase] = useState<'enter' | 'idle' | 'exit'>('idle');
   const [cpf, setCpf] = useState('');

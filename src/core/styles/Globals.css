@@ -17,6 +17,12 @@
   --color-primary-light: var(--primary-light);
   --color-primary-ligh: var(--primary-light);
   --color-secondary: var(--primary-light);
+  --color-success: #388e3c;
+  --color-success-light: #eaf6ec;
+  --color-danger: #1597d3;
+  --color-danger-light: #e9f2ff;
+  --color-pending: #b45309;
+  --color-pending-light: #fff8eb;
   --font-sans: 'Baloo 2', sans-serif;
 }
 

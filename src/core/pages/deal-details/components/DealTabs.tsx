@@ -7,10 +7,11 @@ import type { ReviewResult } from '@/core/@types/Business';
 import { BusinessOverview } from '@/core/components/BusinessOverview';
 import { DataTable } from '@/core/components/DataTable';
 import { financingRows, notices, purchaseRows } from '@/core/mocks/BusinessData';
-import { CircleHelp } from 'lucide-react';
+import { AdjustmentNotice } from '@/core/components/AdjustmentNotice';
+import { getBusinessAdjustment } from '@/core/utils/BusinessAdjustments';
 import { useDealDetails } from '../hooks/UseDealDetails';
 const tabs = [
-  'Dados gerais',
+  'Participantes',
   'Valores da compra e venda',
   'Financiamento e despesas',
   'Avisos gerais',
@@ -22,7 +23,7 @@ type DealTabsProps = {
 };
 export function DealTabs({ businessId, review, state }: DealTabsProps) {
   const selected = businessId;
-  const reviews: Record<number, ReviewResult | undefined> = { [businessId]: review };
+  const adjustment = getBusinessAdjustment({ businessId, review });
   const { tab, setTab } = state;
   return (
     <>
@@ -55,56 +56,7 @@ export function DealTabs({ businessId, review, state }: DealTabsProps) {
           <h2 className="mb-4 hidden text-xl font-semibold text-primary print:!block">{name}</h2>
           {index === 0 ? (
             <>
-              {reviews[selected]?.status === 'adjustments' ? (
-                <article
-                  className={cn(
-                    overviewPanelClassName,
-                    'panel adjustment border-[#f3d7d3] bg-[#fffdfc] [&_h2]:mb-[15px] [&_h2]:border-b [&_h2]:border-[#f0dedb] [&_h2]:pb-[15px] [&_h2]:text-[#e96459]',
-                  )}
-                >
-                  <h2>
-                    <CircleHelp size={20} /> Solicitações de ajuste
-                  </h2>
-                  {reviews[selected].adjustments.map(
-                    (text, index) =>
-                      text && (
-                        <div
-                          className="detail-adjustment [&+&]:mt-[15px] [&+&]:border-t [&+&]:border-[#eeded6] [&+&]:pt-[15px] [&>strong]:text-[17px] [&>p]:whitespace-pre-wrap [&>p]:[overflow-wrap:anywhere]"
-                          key={index}
-                        >
-                          <strong>
-                            {
-                              [
-                                'Participantes',
-                                'Valores da compra e venda',
-                                'Financiamento e despesas',
-                              ][index]
-                            }
-                          </strong>
-                          <p>{text}</p>
-                        </div>
-                      ),
-                  )}
-                </article>
-              ) : (
-                selected === 0 &&
-                !reviews[selected] && (
-                  <article
-                    className={cn(
-                      overviewPanelClassName,
-                      'panel adjustment border-[#f3d7d3] bg-[#fffdfc] [&_h2]:mb-[15px] [&_h2]:border-b [&_h2]:border-[#f0dedb] [&_h2]:pb-[15px] [&_h2]:text-[#e96459]',
-                    )}
-                  >
-                    <h2>
-                      <CircleHelp size={20} /> Solicitação de ajuste
-                    </h2>
-                    <p>
-                      Confira os dados do imóvel e entre em contato com seu consultor para atualizar
-                      as informações pendentes.
-                    </p>
-                  </article>
-                )
-              )}
+              {adjustment && <AdjustmentNotice request={adjustment} className="mb-6" />}
               <BusinessOverview businessId={selected} />
             </>
           ) : index === 1 ? (

@@ -25,9 +25,9 @@ export function ReviewBody({ state, businessId }: ReviewBodyProps) {
           <div className="important-copy mb-7 [&>h2]:mb-[6px] [&>h2]:text-[21px] [&>h2]:font-medium [&>h2]:text-primary [&>p]:text-[17px] [&>p]:leading-[1.8] [&_em]:font-medium">
             <h2>IMPORTANTE</h2>
             <p>
-              Se identificar alguma <em>informação incorreta</em> ou precisar alterar qualquer
-              condição da negociação, <em>solicite a correção nas etapas</em>. Não será possível
-              fazer alterações após a emissão do contrato.
+              Se identificar alguma <em>informação que precise de ajuste</em> ou precisar alterar
+              qualquer condição da negociação, <em>solicite um ajuste nas etapas</em>. Não será
+              possível fazer alterações após a emissão do contrato.
             </p>
           </div>
           <label className={reviewCheckboxClassName}>
@@ -56,7 +56,7 @@ export function ReviewBody({ state, businessId }: ReviewBodyProps) {
               {step === 1 ? (
                 <>
                   <em>Confira se</em> o valor do imóvel e a composição do pagamento{' '}
-                  <em>estão corretos.</em>
+                  <em>estão de acordo.</em>
                 </>
               ) : step === 2 ? (
                 <>

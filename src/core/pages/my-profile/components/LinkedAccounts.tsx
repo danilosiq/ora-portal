@@ -4,8 +4,12 @@ import { Button } from '@/components/ui/Button';
 import { LinkAccountIcon } from '@/core/components/BrandAssets';
 import { Ban, UserCircle } from 'lucide-react';
 
-import type { MyProfileProps } from '../MyProfilePage';
-type LinkedAccountsProps = Pick<MyProfileProps, 'accounts' | 'onLink' | 'onUnlink'>;
+import type { LinkedAccount } from '@/core/@types/Auth';
+type LinkedAccountsProps = {
+  accounts: LinkedAccount[];
+  onLink: () => void;
+  onUnlink: (id: number) => void;
+};
 export function LinkedAccounts({ accounts, onLink, onUnlink }: LinkedAccountsProps) {
   return (
     <section

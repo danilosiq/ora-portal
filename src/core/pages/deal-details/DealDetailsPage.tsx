@@ -3,35 +3,25 @@ import { consultantSheetClassName, mobileConsultantClassName } from '@/core/util
 import { ConsultantSheet } from '@/core/components/ConsultantSheet';
 
 import { DealTabs } from './components/DealTabs';
+import { DealNotifications } from './components/DealNotifications';
 import { DealTimeline } from './components/DealTimeline';
 
-import { Button } from '@/components/ui/Button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/Dialog';
-import type { ReviewResult } from '@/core/@types/Business';
+import { usePortal } from '@/core/pages/portal/hooks/UsePortal';
 import { ConsultantPhoto } from '@/core/components/BrandAssets';
 import { ConsultantCard } from '@/core/components/ConsultantDetails';
 import { IntermediariesPanel } from '@/core/components/IntermediariesPanel';
 import { addresses, properties } from '@/core/mocks/BusinessData';
-import {
-  ArrowLeft,
-  BadgeCheck,
-  ChevronDown,
-  ChevronRight,
-  Download,
-  FileCheck2,
-  Handshake,
-} from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronRight, Handshake } from 'lucide-react';
 import { useDealDetails } from './hooks/UseDealDetails';
-type DealDetailsPageProps = {
-  businessId: number;
-  review?: ReviewResult;
-  onBack: () => void;
-  onConfirm: () => void;
-};
-export function DealDetailsPage({ businessId, review, onBack, onConfirm }: DealDetailsPageProps) {
+type DealDetailsPageProps = { businessId: number };
+export function DealDetailsPage({ businessId }: DealDetailsPageProps) {
   const state = useDealDetails();
+  const { reviews, navigate, startConfirmation } = usePortal();
   const selected = businessId;
-  const reviews: Record<number, ReviewResult | undefined> = { [businessId]: review };
+  const review = reviews[businessId];
+  const onBack = () => navigate('businesses');
+  const onConfirm = () => startConfirmation(businessId);
   const {
     titleExpanded,
     setTitleExpanded,
@@ -64,13 +54,6 @@ export function DealDetailsPage({ businessId, review, onBack, onConfirm }: DealD
               </h1>
               <div className="detail-heading-actions hidden shrink-0 flex-col items-center gap-[6px] pt-1 max-[760px]:flex print:!hidden [&>button]:grid [&>button]:h-8 [&>button]:w-[34px] [&>button]:place-items-center">
                 <button
-                  className="mobile-export text-primary"
-                  aria-label="Exportar negócio para PDF"
-                  onClick={() => window.print()}
-                >
-                  <Download size={23} />
-                </button>
-                <button
                   className="expand-business-title [&>svg]:transition-transform [&>svg]:duration-[250ms] aria-expanded:[&>svg]:rotate-180"
                   aria-label={
                     titleExpanded ? 'Recolher nome do negócio' : 'Expandir nome do negócio'
@@ -85,32 +68,8 @@ export function DealDetailsPage({ businessId, review, onBack, onConfirm }: DealD
             <p className="detail-address mt-[9px] max-[760px]:mt-[7px] text-[16px] text-[#9b9faa] max-[760px]:text-[14px]">
               {addresses[selected % 5]}
             </p>
-            {selected !== 1 &&
-              selected !== 7 &&
-              (reviews[selected] ? (
-                <div
-                  className={`confirmation-banner mt-5 mb-[30px] flex items-center gap-[13px] rounded-[18px] px-[22px] py-[17px] text-[18px] leading-[1.65] [&>svg]:shrink-0 [&.is-confirmed]:bg-[#eaf6ec] [&.is-confirmed>svg]:text-[#388e3c] [&.is-adjustment]:bg-primary-light [&.is-adjustment>svg]:text-primary [&_p>span]:block [&_p>span]:text-[14px] [&_p>span]:text-[#7b8591] max-[760px]:mb-5 max-[760px]:items-start max-[760px]:gap-[10px] max-[760px]:rounded-[14px] max-[760px]:[&>svg]:mt-[3px] max-[760px]:p-[13px] max-[760px]:text-[15px] print:hidden ${reviews[selected].status === 'confirmed' ? 'is-confirmed' : 'is-adjustment'}`}
-                  role="status"
-                >
-                  <BadgeCheck size={24} />
-                  <p>
-                    {reviews[selected].status === 'confirmed'
-                      ? 'Você concluiu a confirmação dos valores deste negócio.'
-                      : 'Solicitações de ajuste registradas para revisão do consultor.'}
-                    <span> Demonstração concluída; nenhuma informação foi enviada.</span>
-                  </p>
-                </div>
-              ) : (
-                <div className="confirmation-banner mt-5 mb-[30px] flex items-center gap-[13px] rounded-[18px] bg-[#e9f2ff] px-[22px] py-[17px] text-[18px] leading-[1.65] [&>svg]:shrink-0 [&>svg]:text-[#1597d3] [&_em]:font-semibold [&_button]:font-semibold [&_button]:text-primary [&_button]:underline [&_button]:underline-offset-[3px] [&_button:hover]:text-primary-hover max-[760px]:mb-5 max-[760px]:items-start max-[760px]:gap-[10px] max-[760px]:rounded-[14px] max-[760px]:[&>svg]:mt-[3px] max-[760px]:p-[13px] max-[760px]:text-[15px] print:hidden">
-                  <FileCheck2 size={26} />
-                  <p>
-                    O negócio está na etapa de confirmação de valores, onde{' '}
-                    <em>precisamos de uma ação sua</em> para prosseguir com o negócio!{' '}
-                    <button onClick={onConfirm}>Clique aqui</button> para realizar este fluxo.
-                  </p>
-                </div>
-              ))}
             <DealTimeline businessId={businessId} />
+            <DealNotifications businessId={businessId} review={review} onConfirm={onConfirm} />
             <button
               ref={consultantTriggerRef}
               className={mobileConsultantClassName}
@@ -141,12 +100,6 @@ export function DealDetailsPage({ businessId, review, onBack, onConfirm }: DealD
             <DealTabs businessId={businessId} review={review} state={state} />
           </div>
           <aside className="business-sidebar flex min-w-0 flex-col gap-[26px] self-start max-[900px]:hidden print:!block print:mt-6">
-            <Button
-              className="export-button mb-[5px] h-[37px] min-h-[37px] w-full gap-[7px] px-[10px] py-[7px] text-[15px] max-[1100px]:text-[13px] print:!hidden"
-              onClick={() => window.print()}
-            >
-              <Download size={17} /> Exportar negócio para PDF
-            </Button>
             <ConsultantCard />
             <IntermediariesPanel />
           </aside>

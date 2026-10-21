@@ -510,7 +510,10 @@ Objetivo: Garantir que todas as paginas sigam o mesmo padrão visual, estrutural
 #### Regras gerais
 
 - Evitar utilizar tags HTML diretamente em componentes de pages
-- utilizar `Sreen` no final de cada pagina
+- Arquivos e componentes de páginas devem terminar com `Page`, por exemplo `IdentificationPage.tsx` e `MyDealsPage`.
+- Rotas são definidas em `src/app`; seus arquivos devem encaminhar para as páginas em `src/core/pages`, mantendo lógica e interface nos respectivos módulos.
+- Manter os nomes reservados do Next.js (`page.tsx`, `layout.tsx`, `not-found.tsx` etc.) dentro de `src/app`; essa é a exceção à nomenclatura PascalCase.
+- Não substituir rotas por condicionais de estado que alternam páginas no App.
 - Utilizar apenas TailwindCSS para estilização
 - Não criar arquivos `.css`, `.scss` ou estilos inline sem solicitação explícita
 - Não utilizar styled-components, CSS Modules ou outras soluções de estilo
@@ -518,3 +521,65 @@ Objetivo: Garantir que todas as paginas sigam o mesmo padrão visual, estrutural
 - Reutilizar componentes globais existentes antes de criar componentes novos
 - Componentes específicos da pagina devem ficar dentro da própria pagina
 - Manter componentes pequenos e com responsabilidade única
+
+---
+
+### Testes
+
+Objetivo: Garantir que as funcionalidades do frontend tenham testes automatizados
+e que mudanças não causem regressões nos fluxos existentes.
+
+#### Regras gerais
+
+- Utilizar Jest com React Testing Library e ambiente jsdom.
+- Toda implementação ou alteração de comportamento deve acompanhar testes novos
+  ou atualização dos testes afetados, incluindo validação de entradas e estados
+  de sucesso, erro, vazio e disabled, quando aplicáveis.
+- Derivar os cenários dos requisitos e contratos, incluindo caminhos negativos.
+  Em caso de contrato indefinido, perguntar antes de definir o resultado esperado.
+- Manter arquivos em `tests/`, organizados por responsabilidade, com nomes
+  PascalCase terminados em `Test.ts` ou `Test.tsx`.
+- Priorizar interações acessíveis e resultados visíveis ao usuário. Não testar
+  detalhes internos, replicar a implementação ou usar snapshots como única prova.
+- Mockar somente limites externos, como navegação e APIs do navegador ausentes
+  no jsdom. Não substituir a lógica da funcionalidade em teste.
+- Utilizar somente dados fictícios e não depender de backend ou serviços reais.
+- Antes de concluir, revisar todos os testes e executar a suíte completa com
+  `yarn test:coverage` e a checagem do repositório com `yarn fullcheck`.
+- Revisar cobertura e cenários ausentes; não declarar cobertura integral com
+  base apenas na porcentagem.
+- Não apagar, enfraquecer ou usar `skip` em testes para esconder falhas.
+- Alterações de tamanho, layout e responsividade também devem ser conferidas no
+  navegador, pois jsdom não calcula o layout real.
+
+#### Comandos
+
+- `yarn test`: executa toda a suíte Jest.
+- `yarn test:watch`: acompanha os testes durante o desenvolvimento.
+- `yarn test:coverage`: gera cobertura em `coverage/`.
+- `yarn fullcheck`: valida arquitetura, formatação, tipos, testes e build.
+
+
+---
+
+### Gerenciador de pacotes
+
+Objetivo: Garantir instalações e comandos consistentes em todas as máquinas.
+
+#### Regras gerais
+
+- Utilizar obrigatoriamente Yarn para instalar dependências, executar scripts e
+  rodar testes. Não utilizar npm, npx, pnpm ou Bun neste repositório.
+- Usar a versão exata declarada em `packageManager` no `package.json`, por meio
+  do Corepack. Ativar com `corepack enable` após selecionar o Node da `.nvmrc`.
+- Versionar somente `yarn.lock` como lockfile. Não criar `package-lock.json`,
+  `npm-shrinkwrap.json`, `pnpm-lock.yaml`, `bun.lock` ou `bun.lockb`.
+- Após clonar e em verificações automatizadas, executar `yarn install --immutable`
+  para garantir que a instalação não altere o lockfile.
+- Adicionar pacotes com `yarn add` ou `yarn add -D`; remover com `yarn remove`.
+- Executar ferramentas locais com `yarn exec` ou scripts do projeto.
+- Manter `nodeLinker: node-modules` em `.yarnrc.yml`.
+- Manter os testes da política de Yarn junto da suíte Jest. Toda entrega deve
+  passar por `yarn fullcheck`, incluindo a validação do gerenciador de pacotes.
+- Os nomes reservados `package.json`, `yarn.lock` e `.yarnrc.yml` são exceções
+  à nomenclatura PascalCase, assim como os arquivos reservados do framework.

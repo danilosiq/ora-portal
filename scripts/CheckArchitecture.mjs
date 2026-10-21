@@ -11,10 +11,14 @@ function files(directory) {
     return entry.isDirectory() ? files(file) : [file];
   });
 }
-const reservedNames = new Set(['src/app/page.tsx', 'src/app/layout.tsx']);
 for (const file of files(sourceRoot)) {
   const relative = path.relative(root, file).replaceAll(path.sep, '/');
-  if (!reservedNames.has(relative) && !/^[A-Z][A-Za-z0-9]*$/.test(path.parse(file).name)) {
+  const isFrameworkFile =
+    relative.startsWith('src/app/') &&
+    /^(page|layout|not-found|error|loading|template|default|global-error)\.tsx$/.test(
+      path.basename(file),
+    );
+  if (!isFrameworkFile && !/^[A-Z][A-Za-z0-9]*$/.test(path.parse(file).name)) {
     errors.push(`${relative}: nome de arquivo deve usar PascalCase`);
   }
 }
@@ -27,6 +31,11 @@ for (const file of files(sourceRoot)) {
 const sourceFiles = files(sourceRoot).filter((file) => /\.tsx?$/.test(file));
 for (const file of sourceFiles) {
   const relative = path.relative(root, file).replaceAll(path.sep, '/');
+  const isCorePage = /^src\/core\/pages\/[^/]+\/[^/]+\.tsx$/.test(relative);
+  const isRoutePage = relative.startsWith('src/app/') && path.basename(file) === 'page.tsx';
+  if (isCorePage && !path.parse(file).name.endsWith('Page')) {
+    errors.push(`${relative}: arquivo de página deve terminar com Page`);
+  }
   const text = fs.readFileSync(file, 'utf8');
   const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
   if (text.includes('@/src/')) errors.push(`${relative}: alias deve partir de @/`);
@@ -55,6 +64,9 @@ for (const file of sourceFiles) {
       }
     }
     if (ts.isFunctionDeclaration(node) && /^[A-Z]/.test(node.name?.text ?? '')) {
+      if ((isCorePage || isRoutePage) && !node.name.text.endsWith('Page')) {
+        errors.push(`${relative}: componente de página deve terminar com Page`);
+      }
       const parameter = node.parameters[0];
       if (parameter && ts.isObjectBindingPattern(parameter.name)) {
         if (

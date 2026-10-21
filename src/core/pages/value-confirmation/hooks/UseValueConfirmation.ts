@@ -2,8 +2,7 @@
 import type { ReviewResult } from '@/core/@types/Business';
 import { notices } from '@/core/mocks/BusinessData';
 import { useRef, useState, type FormEvent } from 'react';
-import type { ValueConfirmationProps } from '../ValueConfirmationPage';
-type UseValueConfirmationProps = Pick<ValueConfirmationProps, 'onComplete'>;
+type UseValueConfirmationProps = { onComplete: (result: ReviewResult) => void };
 export function useValueConfirmation({ onComplete }: UseValueConfirmationProps) {
   const [consultantOpen, setConsultantOpen] = useState(false);
   const consultantTriggerRef = useRef<HTMLButtonElement>(null);

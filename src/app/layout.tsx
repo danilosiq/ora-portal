@@ -1,3 +1,5 @@
+import { PortalProvider } from '@/core/pages/portal/components/PortalProvider';
+import { PortalShell } from '@/core/pages/portal/components/PortalShell';
 import { TooltipProvider } from '@/components/ui/Tooltip';
 import '@/core/styles/Globals.css';
 import '@fontsource/baloo-2/400.css';
@@ -14,7 +16,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="pt-BR">
       <body>
-        <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+        <TooltipProvider delayDuration={0}>
+          <PortalProvider>
+            <PortalShell>{children}</PortalShell>
+          </PortalProvider>
+        </TooltipProvider>
       </body>
     </html>
   );

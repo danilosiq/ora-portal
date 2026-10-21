@@ -2,16 +2,11 @@
 
 import { DealsToolbar } from './components/DealsToolbar';
 
-import type { ReviewResult } from '@/core/@types/Business';
+import { usePortal } from '@/core/pages/portal/hooks/UsePortal';
 import { House, Search, ShieldCheck } from 'lucide-react';
 import { DealCard } from './components/DealCard';
-import type { DealsListState } from './hooks/UseDealsList';
-type MyDealsPageProps = {
-  state: DealsListState;
-  reviews: Record<number, ReviewResult>;
-  onOpenBusiness: (id: number) => void;
-};
-export function MyDealsPage({ state, reviews, onOpenBusiness }: MyDealsPageProps) {
+export function MyDealsPage() {
+  const { listing: state, reviews, openBusiness: onOpenBusiness } = usePortal();
   const { listView, layoutPhase, finishLayoutTransition, deals } = state;
   return (
     <>

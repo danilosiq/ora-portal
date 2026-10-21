@@ -1,4 +1,6 @@
-import { PortalPage } from '@/core/pages/portal/PortalPage';
-export default function Home() {
-  return <PortalPage />;
+import { portalRoutes } from '@/core/utils/PortalRoutes';
+import { redirect } from 'next/navigation';
+
+export default function HomePage() {
+  redirect(portalRoutes.login);
 }

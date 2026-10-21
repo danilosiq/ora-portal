@@ -1,9 +1,6 @@
-export const steps = [
-  'Participantes',
-  'Valores da compra e venda',
-  'Financiamento e despesas',
-  'Avisos finais',
-];
+import { adjustmentSections } from '@/core/mocks/BusinessData';
+
+export const steps = [...adjustmentSections, 'Avisos finais'];
 export const headings = [
   'Visão geral do negócio',
   'Valores de compra e venda e forma de pagamento',
@@ -11,7 +8,7 @@ export const headings = [
   'Avisos finais',
 ];
 export const questions = [
-  'Os participantes e os dados do imóvel estão corretos?',
-  'Os valores acima estão corretos?',
-  'Os valores e informações acima estão corretos?',
+  'Os participantes e os dados do imóvel estão de acordo?',
+  'Os valores acima estão de acordo?',
+  'Os valores e informações acima estão de acordo?',
 ];
