@@ -6,3 +6,8 @@ export type AdjustmentRequest = {
   requestedBy: 'you' | 'other';
   messages: AdjustmentMessage[];
 };
+
+export type ParticipantAttorney = {
+  name: string;
+  representedName: string;
+};

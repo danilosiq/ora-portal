@@ -1,4 +1,4 @@
-import type { AdjustmentRequest } from '@/core/@types/Business';
+import type { AdjustmentRequest, ParticipantAttorney } from '@/core/@types/Business';
 
 export const properties = [
   'Edifício Insight · Apartamento 806 + Garagem 146',
@@ -132,4 +132,24 @@ export const adjustmentRequests: Partial<Record<number, AdjustmentRequest>> = {
 
 export const pendingBusinessNotices: Partial<Record<number, string>> = {
   4: 'Aguardando o retorno do banco para avançar à próxima etapa.',
+};
+
+export const participants = {
+  buyers: ['Alex Oliveira', 'Camila Oliveira'],
+  sellers: ['Roberto Almeida', 'Imobiliária Exemplo LTDA'],
+};
+
+export const businessAttorneys: Partial<
+  Record<number, { buyers?: ParticipantAttorney[]; sellers?: ParticipantAttorney[] }>
+> = {
+  0: {
+    buyers: [{ name: 'Rafael Pereira', representedName: 'Alex Oliveira' }],
+    sellers: [{ name: 'Marina Souza', representedName: 'Roberto Almeida' }],
+  },
+  3: {
+    buyers: [{ name: 'Rafael Pereira', representedName: 'Camila Oliveira' }],
+  },
+  4: {
+    sellers: [{ name: 'Marina Souza', representedName: 'Imobiliária Exemplo LTDA' }],
+  },
 };
